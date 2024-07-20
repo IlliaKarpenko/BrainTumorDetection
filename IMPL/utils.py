@@ -7,11 +7,11 @@ plt.style = ("ggplot")
 def plot_images_with_masks(num_rows, num_columns, image_paths, mask_paths):
     figure = plt.figure(figsize=(12, 12))
 
-    for index in range(1, num_rows * num_columns + 1):
-        subplot = figure.add_subplot(num_rows, num_columns, index)
+    for i in range(1, num_rows * num_columns + 1):
+        figure.add_subplot(num_rows, num_columns, i)
 
-        image_path = image_paths[index - 1]
-        mask_path = mask_paths[index - 1]
+        image_path = image_paths[i]
+        mask_path = mask_paths[i]
 
         image = cv2.imread(image_path)
         image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
@@ -31,7 +31,7 @@ def dice_coefficients(y_true, y_pred, smooth=100):
     return (2*intersection + smooth) / (union + smooth)
 
 def dice_coefficients_loss(y_true, y_pred, smooth=100):
-    return dice_coefficients(y_true, y_pred, smooth)
+    return -dice_coefficients(y_true, y_pred, smooth)
 
 def intersection_over_union(y_true, y_pred, smooth=100):
     intersection = K.sum(y_true * y_pred)
