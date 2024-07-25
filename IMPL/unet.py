@@ -1,5 +1,3 @@
-TF_ENABLE_ONEDNN_OPTS = 0
-
 from tensorflow.keras import Model
 from tensorflow.keras.layers import Input, Activation, BatchNormalization, Conv2D, Conv2DTranspose, \
     MaxPooling2D, concatenate
