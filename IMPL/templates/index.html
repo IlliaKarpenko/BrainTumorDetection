@@ -1,56 +1,45 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Brain Tumor Detection</title>
-    <style>
-        body {
-            font-family: Montserrat, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background-color: #f7f7f7;
-        }
-        .container {
-            text-align: center;
-        }
-        .images {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 20px;
-        }
-        img {
-            max-width: 45%; /* Adjusted to 2x larger */
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            padding: 5px;
-            background-color: white;
-        }
-    </style>
+    <title>Brain Tumor Segmentation</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <div class="container">
-        <h1>Brain Tumor Detection</h1>
-        <form method="post" enctype="multipart/form-data">
-            <input type="file" name="file" accept="image/*">
-            <button type="submit">Predict</button>
+    <h1>Brain Tumor Segmentation</h1>
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+
+    <div class="upload-container">
+        <form method="POST" enctype="multipart/form-data">
+            <input type="file" name="file" id="file-upload" accept=".png, .jpg, .jpeg, .tif">
+            <input type="submit" value="Upload & Analyze" class="upload-button">
         </form>
-        <div class="images">
-            {% if original %}
-            <div>
-                <h3>Original Image</h3>
-                <img src="{{ url_for('static', filename=original.split('/')[-1]) }}" alt="Original Image">
-            </div>
+    </div>
+
+    <div class="image-container">
+        <div class="image-box">
+            <h2>Input Image</h2>
+            {% if input_image %}
+                <img src="{{ url_for('uploaded_file', filename=input_image) }}" alt="Input Image">
+            {% else %}
+                <div class="placeholder"></div>
             {% endif %}
-            {% if prediction %}
-            <div>
-                <h3>Prediction</h3>
-                <img src="{{ url_for('static', filename=prediction.split('/')[-1]) }}" alt="Prediction Image">
-            </div>
+        </div>
+        <div class="image-box">
+            <h2>Mask</h2>
+            {% if result_image %}
+                <img src="{{ url_for('uploaded_file', filename=result_image) }}" alt="Mask">
+            {% else %}
+                <div class="placeholder"></div>
+            {% endif %}
+        </div>
+        <div class="image-box">
+            <h2>Overlay</h2>
+            {% if overlay_image %}
+                <img src="{{ url_for('uploaded_file', filename=overlay_image) }}" alt="Overlay">
+            {% else %}
+                <div class="placeholder"></div>
             {% endif %}
         </div>
     </div>
